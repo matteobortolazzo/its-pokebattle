@@ -6,16 +6,12 @@ on:
       - "src/pokebattle-api/**"
       - ".github/workflows/api-deploy.yml"
 
-env:
-  PROJECT_FOLDER: pokebattle-api
-  AZURE_WEBAPP_NAME: pokebattle-api
-
 jobs:
   reuse-deploy-workflow:
     uses: matteobortolazzo/its-pokebattle/.github/workflows/app-service-container-deploy.yml@main
     with:
-      project_folder: ${{ env.PROJECT_FOLDER }}
-      azure_webapp_name: ${{ env.AZURE_WEBAPP_NAME }}
+      project_folder: pokebattle-api
+      azure_webapp_name: pokebattle-api
     secrets:
       container_registry: ${{ secrets.REGISTRY_URL }}
       registry_username: ${{ secrets.REGISTRY_USERNAME }}
