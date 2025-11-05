@@ -8,7 +8,7 @@ on:
 
 jobs:
   reuse-deploy-workflow:
-    uses: matteobortolazzo/its-pokebattle/.github/workflows/app-service-container-deploy.yml@main
+    uses: ./.github/workflows/app-service-container-deploy.yml@main
     with:
       project_folder: pokebattle-api
       azure_webapp_name: pokebattle-api
