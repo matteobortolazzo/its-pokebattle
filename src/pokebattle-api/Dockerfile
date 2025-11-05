@@ -4,6 +4,7 @@ WORKDIR /source
 
 # copy everything else and build app
 COPY . .
+RUN dotnet test .
 RUN dotnet publish -c release -o /app ./pokebattle-api.ApiService
 
 # final stage/image
