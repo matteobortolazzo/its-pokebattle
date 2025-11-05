@@ -5,6 +5,12 @@ on:
     paths:
       - "src/pokebattle-api/**"
       - ".github/workflows/api-deploy.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/pokebattle-api/**"
+      - ".github/workflows/api-deploy.yml"
 
 jobs:
   reuse-deploy-workflow:

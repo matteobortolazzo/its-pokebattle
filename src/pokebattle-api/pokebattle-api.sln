@@ -10,6 +10,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokebattle-api.ApiService",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pokebattle-api.Web", "pokebattle-api.Web\pokebattle-api.Web.csproj", "{7855E237-D54F-4632-8715-8DDF019138A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokebattle.UnitTests", "Pokebattle.UnitTests\Pokebattle.UnitTests.csproj", "{F8A58706-8AAC-4449-AFF6-F5ED3773A406}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{F9176ECC-EEC8-4180-AD97-E0F8BEA370A7}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +39,10 @@ Global
 		{7855E237-D54F-4632-8715-8DDF019138A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7855E237-D54F-4632-8715-8DDF019138A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7855E237-D54F-4632-8715-8DDF019138A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A58706-8AAC-4449-AFF6-F5ED3773A406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A58706-8AAC-4449-AFF6-F5ED3773A406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A58706-8AAC-4449-AFF6-F5ED3773A406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A58706-8AAC-4449-AFF6-F5ED3773A406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

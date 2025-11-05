@@ -33,12 +33,16 @@ jobs:
           login-server: ${{ secrets.container_registry }}
           username: ${{ secrets.registry_username }}
           password: ${{ secrets.registry_password }}
-      - name: Docker Build & Push to ACR
+      - name: Docker Build
         run: |
           cd src/${{ inputs.project_folder }}
           docker build . -t ${{ secrets.container_registry }}/${{ inputs.azure_webapp_name }}:${{ github.sha }}
+      - name: Push to ACR
+        if: github.event_name != 'pull_request'
+        run: |
           docker push ${{ secrets.container_registry }}/${{ inputs.azure_webapp_name }}:${{ github.sha }}
       - name: "Deploy to Azure Web App for Container"
+        if: github.event_name != 'pull_request'
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.azure_webapp_name }}
