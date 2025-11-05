@@ -29,8 +29,8 @@ jobs:
       - name: Docker Build & Push to ACR
         run: |
           cd src/pokebattle-api
-          docker build . -t '${{ env.CONTAINER_REGISTRY }}/{{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}'
-          docker push '${{ env.CONTAINER_REGISTRY }}/{{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}'
+          docker build . -t ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
+          docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_WEBAPP_NAME }}:${{ github.sha }}
 
       # Uncomment the below action snippet if the Web app credentials are not updated as web app settings
       #     - name: Set Web App ACR authentication
