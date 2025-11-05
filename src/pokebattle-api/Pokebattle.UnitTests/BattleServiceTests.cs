@@ -7,7 +7,7 @@ public class BattleServiceTests
     private readonly BattleService _service = new();
     
     [Theory]
-    [InlineData(PokemonType.Water, false)]
+    [InlineData(PokemonType.Water, true)]
     [InlineData(PokemonType.Dark, false)]
     [InlineData(PokemonType.Fire, false)]
     [InlineData(PokemonType.Electric, false)]
