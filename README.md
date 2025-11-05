@@ -1,6 +1,6 @@
 # PokeBattle
 
-A simple web app that allows two pokemons to battle each other based on their stats.
+A web app that allows two pokemons to battle each other based on their stats.
 It is a simplified version of a pokemon battle system.
 
 The goal is to replace Pokemon AIs with more advanced strategies in the future.
