@@ -10,7 +10,7 @@ RUN dotnet publish -c release -o /app ./pokebattle-api.ApiService
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://+:80
 COPY --from=build /app ./
-EXPOSE 8080
+EXPOSE 80
 ENTRYPOINT ["dotnet", "pokebattle-api.ApiService.dll"]
