@@ -13,4 +13,4 @@ WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:80
 COPY --from=build /app ./
 EXPOSE 80
-ENTRYPOINT ["dotnet", "pokebattle-api.ApiService.dll"]
+ENTRYPOINT ["dotnet", "PokeBattle.ApiService.dll"]
