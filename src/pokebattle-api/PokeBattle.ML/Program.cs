@@ -11,7 +11,8 @@ var rillaboom = new Pokemon
     SpecialAttack = 60,
     SpecialDefence = 70,
     Speed = 85,
-    Type1 = "grass"
+    Type1 = "grass",
+    IsLegendary = false
 };
 
 var zacian = new Pokemon
@@ -22,7 +23,8 @@ var zacian = new Pokemon
     SpecialAttack = 80,
     SpecialDefence = 115,
     Speed = 138,
-    Type1 = "fairy"
+    Type1 = "fairy",
+    IsLegendary = true
 };
 
 var eter = new Pokemon
@@ -34,7 +36,8 @@ var eter = new Pokemon
     SpecialDefence = 95,
     Speed = 130,
     Type1 = "poison",
-    Type2 = "dragon"
+    Type2 = "dragon",
+    IsLegendary = true
 };
 var grookey = new Pokemon
 {
@@ -44,7 +47,8 @@ var grookey = new Pokemon
     SpecialAttack = 40,
     SpecialDefence = 40,
     Speed = 65,
-    Type1 = "grass"
+    Type1 = "grass",
+    IsLegendary = false
 };
 var manafy = new Pokemon
 {
@@ -54,7 +58,8 @@ var manafy = new Pokemon
     SpecialAttack = 100,
     SpecialDefence = 100,
     Speed = 100,
-    Type1 = "water"
+    Type1 = "water",
+    IsLegendary = true
 };
 
 var dragapult = new Pokemon
@@ -66,7 +71,8 @@ var dragapult = new Pokemon
     SpecialDefence = 75,
     Speed = 142,
     Type1 = "dragon",
-    Type2 = "ghost"
+    Type2 = "ghost",
+    IsLegendary = false
 };
 /* PREDICT TYPE * /
 /*
@@ -83,15 +89,20 @@ var predictedTotal = predictTotalStatsModel.PredictTotalStat(testPokemon);
 */
 
 /* PREDICT LEGENDARY */
+/*
 const string legendaryModelPath = "/home/mborto/Repos/PokeBattle/data/predict-legendary.zip";
 var predictTotalStatsModel = new PredictLegendaryModel(legendaryModelPath, source);
 var isLegendary = predictTotalStatsModel.PredictLegendary(grookey);
-Console.WriteLine($"Is Legendary: {isLegendary}");
+*/
+
+const string legendaryModelPath = "/home/mborto/Repos/PokeBattle/data/predict-catchrate.zip";
+var predictTotalStatsModel = new PredictCatchRateModel(legendaryModelPath, source);
 
 // Test multiple Pokémon to see the pattern
 Console.WriteLine("\n--- Testing Multiple Pokémon ---");
-Console.WriteLine($"Rillaboom (not legendary): {predictTotalStatsModel.PredictLegendary(rillaboom)}");
-Console.WriteLine($"Zacian (legendary): {predictTotalStatsModel.PredictLegendary(zacian)}");
-Console.WriteLine($"Eternatus (legendary): {predictTotalStatsModel.PredictLegendary(eter)}");
-Console.WriteLine($"Manafy (legendary): {predictTotalStatsModel.PredictLegendary(manafy)}");
-Console.WriteLine($"Dragapult (not legendary): {predictTotalStatsModel.PredictLegendary(dragapult)}");
+Console.WriteLine($"Grookey (not legendary): {predictTotalStatsModel.PredictCatchRate(grookey)}");
+Console.WriteLine($"Rillaboom (not legendary): {predictTotalStatsModel.PredictCatchRate(rillaboom)}");
+Console.WriteLine($"Zacian (legendary): {predictTotalStatsModel.PredictCatchRate(zacian)}");
+Console.WriteLine($"Eternatus (legendary): {predictTotalStatsModel.PredictCatchRate(eter)}");
+Console.WriteLine($"Manafy (legendary): {predictTotalStatsModel.PredictCatchRate(manafy)}");
+Console.WriteLine($"Dragapult (not legendary): {predictTotalStatsModel.PredictCatchRate(dragapult)}");
