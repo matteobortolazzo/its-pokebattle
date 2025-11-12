@@ -3,15 +3,18 @@ using Microsoft.ML.Data;
 
 namespace PokeBattle.ML;
 
-public class TotalStatPrediction
+public class LegendaryPrediction
 {
-    [ColumnName("Score")]
-    public float PredictedTotalStat;
+    [ColumnName("PredictedLabel")] public bool IsLegendary { get; set; }
+
+    public float Probability { get; set; }
+
+    public float Score { get; set; }
 }
 
-public class PredictTotalStatsModel(string modelPath, string sourcePath)
+public class PredictLegendaryModel(string modelPath, string sourcePath)
 {
-    public int PredictTotalStat(Pokemon pokemon)
+    public bool PredictLegendary(Pokemon pokemon)
     {
         ITransformer trainedModel;
 
@@ -34,47 +37,52 @@ public class PredictTotalStatsModel(string modelPath, string sourcePath)
 
             Console.WriteLine("\nTraining model...");
             trainedModel = trainingPipeline.Fit(trainTestSplit.TrainSet);
-            
+
             // Evaluate the model on test data
             var predictions = trainedModel.Transform(trainTestSplit.TestSet);
-            var metrics = mlContext.Regression.Evaluate(predictions, labelColumnName: "Label", scoreColumnName: "Score");
-            
-            Console.WriteLine($"\nModel trained and evaluated:");
-            Console.WriteLine($"  R^2: {metrics.RSquared:0.###}");
-            Console.WriteLine($"  MAE: {metrics.MeanAbsoluteError:0.###}");
-            Console.WriteLine($"  RMSE: {metrics.RootMeanSquaredError:0.###}");
-            
+            var metrics = mlContext.BinaryClassification.Evaluate(predictions, labelColumnName: "Label");
+
+            Console.WriteLine($"\nModel Evaluation Metrics:");
+            Console.WriteLine($"Accuracy: {metrics.Accuracy:P2}");
+            Console.WriteLine($"AUC: {metrics.AreaUnderRocCurve:P2}");
+            Console.WriteLine($"F1 Score: {metrics.F1Score:P2}");
+
             mlContext.Model.Save(trainedModel, dataView.Schema, modelPath);
             Console.WriteLine($"\nModel saved to: {modelPath}");
         }
 
-        var predEngine = mlContext.Model.CreatePredictionEngine<Pokemon, TotalStatPrediction>(trainedModel);
+        var predEngine = mlContext.Model.CreatePredictionEngine<Pokemon, LegendaryPrediction>(trainedModel);
 
         var prediction = predEngine.Predict(pokemon);
-        return (int)Math.Round(prediction.PredictedTotalStat);
+        return prediction.IsLegendary;
     }
 
     private static IEstimator<ITransformer> ProcessData(MLContext mlContext)
     {
         var pipeline =
-            mlContext.Transforms.CopyColumns(inputColumnName: nameof(Pokemon.BaseTotal), outputColumnName: "Label")
+            mlContext.Transforms.CopyColumns(inputColumnName: nameof(Pokemon.IsLegendary), outputColumnName: "Label")
+                .Append(mlContext.Transforms.Text.FeaturizeText(inputColumnName: "Type1", outputColumnName: "Type1Featurized"))
+                .Append(mlContext.Transforms.Text.FeaturizeText(inputColumnName: "Type2", outputColumnName: "Type2Featurized"))
                 .Append(mlContext.Transforms.Concatenate("Features",
                     nameof(Pokemon.Hp),
                     nameof(Pokemon.Attack),
                     nameof(Pokemon.SpecialAttack),
                     nameof(Pokemon.Defense),
                     nameof(Pokemon.SpecialDefence),
-                    nameof(Pokemon.Speed)))
-                .Append(mlContext.Transforms.NormalizeMinMax("Features"));
+                    nameof(Pokemon.Speed),
+                    "Type1Featurized",
+                    "Type2Featurized"));
         return pipeline;
     }
 
     private static IEstimator<ITransformer> BuildAndTrainModel(MLContext mlContext, IEstimator<ITransformer> pipeline)
     {
         var trainingPipeline = pipeline
-            .Append(mlContext.Regression.Trainers.Sdca(
+            .Append(mlContext.BinaryClassification.Trainers.LbfgsLogisticRegression(
                 labelColumnName: "Label",
-                featureColumnName: "Features"));
+                featureColumnName: "Features",
+                l1Regularization: 0.1f,
+                l2Regularization: 0.1f));
         return trainingPipeline;
     }
 }

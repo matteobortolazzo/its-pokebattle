@@ -29,5 +29,5 @@ public class Pokemon
     [LoadColumn(38)]
     public float Generation { get; set; }
     [LoadColumn(39)]
-    public float IsLegendary { get; set; }
+    public bool IsLegendary { get; set; }
 }
