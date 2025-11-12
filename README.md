@@ -22,7 +22,7 @@ The battle system works as follows:
 
 ## Database
 
-The app uses a PostgreSQL database to store pokemon data.
+The app uses a PostgreSQL database to store Pokémon data.
 
 ### Tables
  
