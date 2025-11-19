@@ -72,13 +72,21 @@ public class PredictCatchRateModel(string modelPath, string sourcePath)
                     outputColumnName: "IsLegendaryFloat",
                     inputColumnName: nameof(Pokemon.IsLegendary),
                     outputKind: DataKind.Single))
+                .Append(mlContext.Transforms.Categorical.OneHotEncoding(
+                    inputColumnName: nameof(Pokemon.Type1),
+                    outputColumnName: "Type1Encoded"))
+                .Append(mlContext.Transforms.Categorical.OneHotEncoding(
+                    inputColumnName: nameof(Pokemon.Type2),
+                    outputColumnName: "Type2Encoded"))
                 .Append(mlContext.Transforms.Concatenate("Features",
                     nameof(Pokemon.Hp),
                     nameof(Pokemon.Attack),
                     nameof(Pokemon.SpecialAttack),
                     nameof(Pokemon.Defense),
                     nameof(Pokemon.SpecialDefence),
-                    nameof(Pokemon.Speed),
+                    nameof(Pokemon.Speed), 
+                    "Type1Encoded",
+                    "Type2Encoded",
                     "IsLegendaryFloat"));
         return pipeline;
     }
@@ -86,9 +94,11 @@ public class PredictCatchRateModel(string modelPath, string sourcePath)
     private static IEstimator<ITransformer> BuildAndTrainModel(MLContext mlContext, IEstimator<ITransformer> pipeline)
     {
         var trainingPipeline = pipeline
-            .Append(mlContext.Regression.Trainers.Sdca(
+            .Append(mlContext.Regression.Trainers.FastForest(
                 labelColumnName: "Label",
-                featureColumnName: "Features"));
+                featureColumnName: "Features",
+                numberOfTrees: 100,
+                numberOfLeaves: 20));
         return trainingPipeline;
     }
 }

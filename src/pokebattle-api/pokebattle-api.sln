@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{F9176ECC-EEC8-4180-AD97-E0F8BEA370A7}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
+		..\..\data\pokemon.csv = ..\..\data\pokemon.csv
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeBattle.ML", "PokeBattle.ML\PokeBattle.ML.csproj", "{2703C965-A0D9-4801-8DAD-5FEF9FB5FB3B}"

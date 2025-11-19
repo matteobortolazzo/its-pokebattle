@@ -12,7 +12,7 @@ var rillaboom = new Pokemon
     SpecialDefence = 70,
     Speed = 85,
     Type1 = "grass",
-    IsLegendary = false
+    // IsLegendary = false
 };
 
 var zacian = new Pokemon
@@ -24,7 +24,7 @@ var zacian = new Pokemon
     SpecialDefence = 115,
     Speed = 138,
     Type1 = "fairy",
-    IsLegendary = true
+    // IsLegendary = true
 };
 
 var eter = new Pokemon
@@ -37,7 +37,7 @@ var eter = new Pokemon
     Speed = 130,
     Type1 = "poison",
     Type2 = "dragon",
-    IsLegendary = true
+    // IsLegendary = true
 };
 var grookey = new Pokemon
 {
@@ -48,7 +48,7 @@ var grookey = new Pokemon
     SpecialDefence = 40,
     Speed = 65,
     Type1 = "grass",
-    IsLegendary = false
+    // IsLegendary = false
 };
 var manafy = new Pokemon
 {
@@ -59,7 +59,7 @@ var manafy = new Pokemon
     SpecialDefence = 100,
     Speed = 100,
     Type1 = "water",
-    IsLegendary = true
+    // IsLegendary = true
 };
 
 var dragapult = new Pokemon
@@ -72,7 +72,7 @@ var dragapult = new Pokemon
     Speed = 142,
     Type1 = "dragon",
     Type2 = "ghost",
-    IsLegendary = false
+    // IsLegendary = false
 };
 /* PREDICT TYPE * /
 /*
@@ -91,18 +91,32 @@ var predictedTotal = predictTotalStatsModel.PredictTotalStat(testPokemon);
 /* PREDICT LEGENDARY */
 /*
 const string legendaryModelPath = "/home/mborto/Repos/PokeBattle/data/predict-legendary.zip";
-var predictTotalStatsModel = new PredictLegendaryModel(legendaryModelPath, source);
-var isLegendary = predictTotalStatsModel.PredictLegendary(grookey);
+var predictLegendary = new PredictLegendaryModel(legendaryModelPath, source);
+predictLegendary.PredictLegendary(grookey);
 */
 
-const string legendaryModelPath = "/home/mborto/Repos/PokeBattle/data/predict-catchrate.zip";
-var predictTotalStatsModel = new PredictCatchRateModel(legendaryModelPath, source);
+/* PREDICT CATCH RATE */
+/*
+const string catchRatePath = "/home/mborto/Repos/PokeBattle/data/predict-catchrate.zip";
+var predictTotalStatsModel = new PredictCatchRateModel(catchRatePath, source);
+*/
+
+/* PREDICT LEGENDARY AUTO */
+const string legendaryModelPath = "/home/mborto/Repos/PokeBattle/data/predict-legendary-best.zip";
+var predictLegendary = new PredictLegendaryAutoModel(legendaryModelPath, source);
+predictLegendary.PredictLegendary(grookey);
 
 // Test multiple Pokémon to see the pattern
+var y1 = predictLegendary.PredictLegendary(grookey);
+var y2 = predictLegendary.PredictLegendary(rillaboom);
+var y3 = predictLegendary.PredictLegendary(zacian);
+var y4 = predictLegendary.PredictLegendary(eter);
+var y5 = predictLegendary.PredictLegendary(manafy);
+var y6 = predictLegendary.PredictLegendary(dragapult);
 Console.WriteLine("\n--- Testing Multiple Pokémon ---");
-Console.WriteLine($"Grookey (not legendary): {predictTotalStatsModel.PredictCatchRate(grookey)}");
-Console.WriteLine($"Rillaboom (not legendary): {predictTotalStatsModel.PredictCatchRate(rillaboom)}");
-Console.WriteLine($"Zacian (legendary): {predictTotalStatsModel.PredictCatchRate(zacian)}");
-Console.WriteLine($"Eternatus (legendary): {predictTotalStatsModel.PredictCatchRate(eter)}");
-Console.WriteLine($"Manafy (legendary): {predictTotalStatsModel.PredictCatchRate(manafy)}");
-Console.WriteLine($"Dragapult (not legendary): {predictTotalStatsModel.PredictCatchRate(dragapult)}");
+Console.WriteLine($"Grookey (not legendary): {y1.IsLegendary} {y1.Score}");
+Console.WriteLine($"Rillaboom (not legendary): {y2.IsLegendary} {y2.Score}");
+Console.WriteLine($"Zacian (legendary): {y3.IsLegendary} {y3.Score}");
+Console.WriteLine($"Eternatus (legendary):{y4.IsLegendary} {y4.Score}");
+Console.WriteLine($"Manafy (legendary):{y5.IsLegendary} {y5.Score}");
+Console.WriteLine($"Dragapult (not legendary): {y6.IsLegendary} {y6.Score}");
